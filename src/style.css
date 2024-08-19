@@ -21,7 +21,6 @@ body {
 .container {
     position: relative;
     width: 50rem;
-    height: 65rem;
     border-radius: 2rem;
     margin-top: 5rem;
     padding: 4rem;
@@ -79,7 +78,6 @@ body {
 
 
 .weather-status {
-
     color: #fff;
     display: flex;
     flex-direction: column;
