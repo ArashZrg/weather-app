@@ -1,35 +1,56 @@
 
+const container = document.querySelector('.container')
 const weatherStatusContainer = document.querySelector('.weather-status')
 const searchInput = document.querySelector('.search-input') as HTMLInputElement
 const searchBtn = document.querySelector('.search-btn')
 
+
 class Weather {
-    constructor() {
-        this.event()
-    }
+  constructor() {
+    this.event()
+  }
 
-    event() {
-        searchBtn?.addEventListener('click', () => {
-            const value: string = searchInput?.value
-            this.updateDom(value)
-            searchInput.value = ''
-        })
-    }
+  event() {
+    searchBtn?.addEventListener('click', () => {
+      const value: string = searchInput?.value
+      this.updateDom(value)
+      searchInput.value = ''
+    })
+  }
 
-    async fetchData(cityName: string) {
-        try {
-            const request = await fetch(`https://api.weatherapi.com/v1/current.json?q=${cityName}&key=123e5e3204114b2d8a9110320241908`)
-            const response = await request.json()
-            return response
-        } catch (error) {
-            console.log('something went wrong:', error)
-        }
-    }
+  async fetchData(cityName: string) {
+    try {
+      const request = await fetch(`https://api.weatherapi.com/v1/current.json?q=${cityName}&key=123e5e3204114b2d8a9110320241908`)
+      const response = await request.json()
+      return response
+    } catch (error) {
+      console.log('something went wrong:', error)
+    } finally {
+      const loadingContent = `
+            <div class="wrapper">
+        <div class="circle-container">
+          <div class="outer-circle circle">
+            <div class="middle-circle circle">
+              <div class="inner-circle circle">
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`
 
-    async updateDom(cityName: string) {
-        const data = await this.fetchData(cityName)
-        // create elements and put data
-        const html = `
+      container?.insertAdjacentHTML('beforeend', loadingContent)
+    }
+  }
+
+  async updateDom(cityName: string) {
+    const data = await this.fetchData(cityName)
+    // create elements and put data
+    const existingWeatherStatus = document.querySelectorAll('.weather-status')
+    existingWeatherStatus.forEach(status => status.remove())
+
+    const html = `
+        <div class="weather-status">
         <img src="${data.current.condition.icon}" alt="cloud-icon" />
         <div class="cloud-status">
           <p>Clouds</p>
@@ -58,11 +79,11 @@ class Weather {
             </div>
           </div>
         </div>
+        </div>
         `
-        if (weatherStatusContainer) {
-            weatherStatusContainer.innerHTML = html
-        }
-    }
+    container?.insertAdjacentHTML('beforeend', html)
+
+  }
 
 }
 

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const container = document.querySelector('.container');
 const weatherStatusContainer = document.querySelector('.weather-status');
 const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
@@ -32,13 +33,31 @@ class Weather {
             catch (error) {
                 console.log('something went wrong:', error);
             }
+            finally {
+                const html = `
+            <div class="wrapper">
+        <div class="circle-container">
+          <div class="outer-circle circle">
+            <div class="middle-circle circle">
+              <div class="inner-circle circle">
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+                container === null || container === void 0 ? void 0 : container.insertAdjacentHTML('beforeend', html);
+            }
         });
     }
     updateDom(cityName) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.fetchData(cityName);
             // create elements and put data
+            const existingWeatherStatus = document.querySelectorAll('.weather-status');
+            existingWeatherStatus.forEach(status => status.remove());
             const html = `
+        <div class="weather-status">
         <img src="${data.current.condition.icon}" alt="cloud-icon" />
         <div class="cloud-status">
           <p>Clouds</p>
@@ -67,10 +86,9 @@ class Weather {
             </div>
           </div>
         </div>
+        </div>
         `;
-            if (weatherStatusContainer) {
-                weatherStatusContainer.innerHTML = html;
-            }
+            container === null || container === void 0 ? void 0 : container.insertAdjacentHTML('beforeend', html);
         });
     }
 }
