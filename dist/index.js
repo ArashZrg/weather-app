@@ -9,19 +9,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const container = document.querySelector('.container');
+const content = document.querySelector('.content');
 const weatherStatusContainer = document.querySelector('.weather-status');
 const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
+console.log(content);
 class Weather {
     constructor() {
         this.event();
     }
     event() {
-        searchBtn === null || searchBtn === void 0 ? void 0 : searchBtn.addEventListener('click', () => {
+        searchBtn === null || searchBtn === void 0 ? void 0 : searchBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
             const value = searchInput === null || searchInput === void 0 ? void 0 : searchInput.value;
-            this.updateDom(value);
+            // Display the loading animation
+            const loadingContent = `
+        <div class="wrapper">
+          <div class="circle-container">
+            <div class="outer-circle circle">
+              <div class="middle-circle circle">
+                <div class="inner-circle circle">
+                  <div class="line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+            if (content)
+                content.innerHTML = loadingContent;
+            yield this.updateDom(value);
             searchInput.value = '';
-        });
+        }));
     }
     fetchData(cityName) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -32,21 +49,6 @@ class Weather {
             }
             catch (error) {
                 console.log('something went wrong:', error);
-            }
-            finally {
-                const html = `
-            <div class="wrapper">
-        <div class="circle-container">
-          <div class="outer-circle circle">
-            <div class="middle-circle circle">
-              <div class="inner-circle circle">
-                <div class="line"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`;
-                container === null || container === void 0 ? void 0 : container.insertAdjacentHTML('beforeend', html);
             }
         });
     }
@@ -88,7 +90,10 @@ class Weather {
         </div>
         </div>
         `;
-            container === null || container === void 0 ? void 0 : container.insertAdjacentHTML('beforeend', html);
+            if (content) {
+                content.innerHTML = html;
+            }
+            // container?.insertAdjacentHTML('beforeend', html)
         });
     }
 }

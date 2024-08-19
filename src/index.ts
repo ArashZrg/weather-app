@@ -1,5 +1,5 @@
-
 const container = document.querySelector('.container')
+const content = document.querySelector('.content')
 const weatherStatusContainer = document.querySelector('.weather-status')
 const searchInput = document.querySelector('.search-input') as HTMLInputElement
 const searchBtn = document.querySelector('.search-btn')
@@ -11,12 +11,29 @@ class Weather {
   }
 
   event() {
-    searchBtn?.addEventListener('click', () => {
+    searchBtn?.addEventListener('click', async () => {
       const value: string = searchInput?.value
-      this.updateDom(value)
-      searchInput.value = ''
-    })
+
+      // Display the loading animation
+      const loadingContent = `
+        <div class="wrapper">
+          <div class="circle-container">
+            <div class="outer-circle circle">
+              <div class="middle-circle circle">
+                <div class="inner-circle circle">
+                  <div class="line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      if (content)
+        content.innerHTML = loadingContent;
+      await this.updateDom(value);
+      searchInput.value = '';
+    });
   }
+
 
   async fetchData(cityName: string) {
     try {
@@ -25,21 +42,6 @@ class Weather {
       return response
     } catch (error) {
       console.log('something went wrong:', error)
-    } finally {
-      const loadingContent = `
-            <div class="wrapper">
-        <div class="circle-container">
-          <div class="outer-circle circle">
-            <div class="middle-circle circle">
-              <div class="inner-circle circle">
-                <div class="line"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>`
-
-      container?.insertAdjacentHTML('beforeend', loadingContent)
     }
   }
 
@@ -81,7 +83,12 @@ class Weather {
         </div>
         </div>
         `
-    container?.insertAdjacentHTML('beforeend', html)
+    if (content) {
+      content.innerHTML = html
+    }
+
+
+    // container?.insertAdjacentHTML('beforeend', html)
 
   }
 
