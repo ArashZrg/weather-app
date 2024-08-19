@@ -256,3 +256,10 @@ body {
         opacity: 1;
     }
 }
+
+.message {
+    padding: 5rem;
+    text-align: center;
+
+    color: rgb(186, 50, 50);
+}

@@ -14,7 +14,6 @@ class Weather {
     searchBtn?.addEventListener('click', async () => {
       const value: string = searchInput?.value
 
-      // Display the loading animation
       const loadingContent = `
         <div class="wrapper">
           <div class="circle-container">
@@ -29,7 +28,12 @@ class Weather {
         </div>`;
       if (content)
         content.innerHTML = loadingContent;
-      await this.updateDom(value);
+      await this.updateDom(value).catch(() => {
+        const res = `<h1 class="message">CITY NOT FOUND!</h1>`
+        if (content) {
+          content.innerHTML = res
+        }
+      })
       searchInput.value = '';
     });
   }
@@ -47,7 +51,8 @@ class Weather {
 
   async updateDom(cityName: string) {
     const data = await this.fetchData(cityName)
-    // create elements and put data
+
+
     const existingWeatherStatus = document.querySelectorAll('.weather-status')
     existingWeatherStatus.forEach(status => status.remove())
 
@@ -87,12 +92,8 @@ class Weather {
       content.innerHTML = html
     }
 
-
-    // container?.insertAdjacentHTML('beforeend', html)
-
   }
 
 }
 
 const app = new Weather()
-

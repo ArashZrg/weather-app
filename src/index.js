@@ -13,7 +13,6 @@ const content = document.querySelector('.content');
 const weatherStatusContainer = document.querySelector('.weather-status');
 const searchInput = document.querySelector('.search-input');
 const searchBtn = document.querySelector('.search-btn');
-console.log(content);
 class Weather {
     constructor() {
         this.event();
@@ -21,7 +20,6 @@ class Weather {
     event() {
         searchBtn === null || searchBtn === void 0 ? void 0 : searchBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
             const value = searchInput === null || searchInput === void 0 ? void 0 : searchInput.value;
-            // Display the loading animation
             const loadingContent = `
         <div class="wrapper">
           <div class="circle-container">
@@ -36,7 +34,12 @@ class Weather {
         </div>`;
             if (content)
                 content.innerHTML = loadingContent;
-            yield this.updateDom(value);
+            yield this.updateDom(value).catch(() => {
+                const res = `<h1 class="message">CITY NOT FOUND!</h1>`;
+                if (content) {
+                    content.innerHTML = res;
+                }
+            });
             searchInput.value = '';
         }));
     }
@@ -55,7 +58,6 @@ class Weather {
     updateDom(cityName) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.fetchData(cityName);
-            // create elements and put data
             const existingWeatherStatus = document.querySelectorAll('.weather-status');
             existingWeatherStatus.forEach(status => status.remove());
             const html = `
@@ -93,7 +95,6 @@ class Weather {
             if (content) {
                 content.innerHTML = html;
             }
-            // container?.insertAdjacentHTML('beforeend', html)
         });
     }
 }
