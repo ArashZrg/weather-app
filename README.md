@@ -2,5 +2,5 @@
 <ul>
   <li>typescript</li>
   <li>tailwind</li>
-  <a>https://weather-app-beta-six-88.vercel.app/</a>
+  <li>[Weather App](https://weather-app-beta-six-88.vercel.app/)</li>
 </ul>
