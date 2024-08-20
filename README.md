@@ -1,5 +1,5 @@
 # weather-app
 <ul>
-  <li>TypeScript<li>
-  <li>TailWind<li>
+  <li>typescript</li>
+  <li>tailwind</li>
 </ul>
