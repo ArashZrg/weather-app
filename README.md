@@ -1,2 +1,5 @@
 # weather-app
-i will explain it soon ....
+<ul>
+  <li>TypeScript<li>
+  <li>TailWind<li>
+</ul>
